@@ -8,7 +8,6 @@ import (
 	"github.com/DucHoangManh/go-admin/models"
 	"github.com/DucHoangManh/go-admin/util"
 	"github.com/gofiber/fiber/v2"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func Register(c *fiber.Ctx) error {
@@ -32,13 +31,13 @@ func Register(c *fiber.Ctx) error {
 			"message": "Email already in use",
 		})
 	}
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(requestData["password"]), 14)
 	user := models.User{
 		FirstName: requestData["first_name"],
 		LastName:  requestData["last_name"],
 		Email:     requestData["email"],
-		Password:  hashedPassword,
+		RoleId: 1,
 	}
+	user.SetPassword(requestData["password"])
 	database.DB.Create(&user)
 	return c.JSON(fiber.Map{
 		"message": "success",
@@ -61,7 +60,7 @@ func Login(c *fiber.Ctx) error {
 			"message": "user not found",
 		})
 	}
-	err :=bcrypt.CompareHashAndPassword(user.Password, []byte(requestData["password"]))
+	err := user.ComparePassword(requestData["password"])
 	if err != nil{
 		c.Status(fiber.StatusBadRequest)
 		return c.JSON(fiber.Map{
