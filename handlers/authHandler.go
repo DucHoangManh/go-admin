@@ -20,6 +20,7 @@ func Register(c *fiber.Ctx) error {
 		c.Status(400)
 		return c.JSON(fiber.Map{
 			"message": "Confirm password does not match",
+			"request" : requestData,
 		})
 	}
 	//check if email already in use
