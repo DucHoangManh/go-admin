@@ -28,4 +28,11 @@ func Setup(app *fiber.App){
 		app.Delete("api/roles/:id", handlers.DeleteRole)
 
 		app.Get("api/permissions", handlers.AllPermissions)
+
+
+		app.Get("/api/products", handlers.AllProducts)
+		app.Post("api/products", handlers.CreateProduct)
+		app.Get("api/products/:id", handlers.GetProduct)
+		app.Put("api/products/:id", handlers.UpdateProduct)
+		app.Delete("api/products/:id", handlers.DeleteProduct)
 }
