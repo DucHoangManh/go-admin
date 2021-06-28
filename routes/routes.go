@@ -2,7 +2,6 @@ package routes
 
 import (
 	"github.com/DucHoangManh/go-admin/handlers"
-	"github.com/DucHoangManh/go-admin/middlewares"
 	"github.com/gofiber/fiber/v2"
 )
 func Setup(app *fiber.App){
@@ -10,7 +9,7 @@ func Setup(app *fiber.App){
 		app.Post("/api/login", handlers.Login)
 		
 
-		app.Use(middlewares.IsAuthenticated)
+		//app.Use(middlewares.IsAuthenticated)
 		app.Get("/api/user", handlers.User)
 		app.Get("/api/logout", handlers.Logout)
 
@@ -35,4 +34,6 @@ func Setup(app *fiber.App){
 		app.Get("api/products/:id", handlers.GetProduct)
 		app.Put("api/products/:id", handlers.UpdateProduct)
 		app.Delete("api/products/:id", handlers.DeleteProduct)
+
+		app.Post("api/upload", handlers.Upload)
 }
